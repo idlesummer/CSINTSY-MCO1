@@ -58,7 +58,7 @@ class App(Frame):
         if self.tableSize == size:
             return False
 
-        #  Undraws maze cells
+        #  Undraws old maze cells
         for i in range(self.tableSize+2):
             for j in range(self.tableSize+2):
                 cell = self.cellTable[i][j]
