@@ -1,5 +1,6 @@
 from ctypes import windll
 from tkinter import *
+from tkinter import ttk
 
 from Cellbutton import *
 
@@ -13,6 +14,8 @@ class App(Frame):
     GRID_SIZE_DEF = 12
     GRID_SIZE_MAX = 64
     CELL_SIZE = 100
+    I = 0
+    FOO = [8, 16, 24, 32]
 
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
@@ -42,6 +45,7 @@ class App(Frame):
         self.mazeFrame.grid(row=0, column=0, padx=20, pady=20)
         self.mazeFrame.grid_propagate(False)
         self.create_maze()
+        self.update_cells([(1, 1)], state="disabled", bg="red")
         self.show_maze(App.GRID_SIZE_DEF)
         
     def create_maze(self):        
@@ -59,48 +63,168 @@ class App(Frame):
             return False
 
         #  Undraws old maze cells
-        for i in range(self.tableSize+2):
-            for j in range(self.tableSize+2):
-                cell = self.cellTable[i][j]
-                cell.grid_remove()
-                self.wallTable[i][j] = 0
+        self.remove_cells([(i, j) for i in range(self.tableSize+2) for j in range(self.tableSize+2)])
 
+        # Enables the buttons to stretch or shrink depending on maze size
         self.tableSize = size
         self.mazeFrame.columnconfigure(tuple(range(self.tableSize+2)), weight=1) 
         self.mazeFrame.rowconfigure(tuple(range(self.tableSize+2)), weight=1)
         
         #  Draws maze cells
-        for i in range(size+2):
-            for j in range(size+2):
-                cell = self.cellTable[i][j]
-                cell.config(state="normal", bg="White")
-                cell.deselect()
-                cell.grid(row=i, column=j, sticky="nsew")
+        self.update_cells([(i, j) for i in range(size+2) for j in range(size+2)], select=False)
         
         # Draws the border
+        cells = []
         for i in range(self.tableSize+2):
-            self.cellTable[0][i].config(state="disabled").select()           
-            self.cellTable[i][0].config(state="disabled").select()
-            self.cellTable[self.tableSize+1][i].config(state="disabled").select()
-            self.cellTable[i][self.tableSize+1].config(state="disabled").select()
-            self.wallTable[0][i] = 1
-            self.wallTable[i][0] = 1
-            self.wallTable[self.tableSize+1][i] = 1
-            self.wallTable[i][self.tableSize+1] = 1
-            
-        self.cellTable[1][1].config(state="disabled", bg="Red")
-        self.cellTable[self.tableSize][self.tableSize].config(state="disabled", bg="Green")
+            cells.append((0, i))
+            cells.append((i, 0))
+            cells.append((self.tableSize+1, i))
+            cells.append((i, self.tableSize+1))
+        self.update_cells(cells, state="disabled", select=True)
+        
+        # Updates the target cell
+        self.update_cells([(self.tableSize, self.tableSize)], state="disabled", bg="green")
     
+    def remove_cells(self, pos):
+        for row, column in pos:
+            cell = self.cellTable[row][column]
+            self.wallTable[row][column] = 0
+            cell.grid_remove()
+    
+    def update_cells(self, pos, state="normal", bg="white", select=False):
+        for row, column in pos:       
+            cell = self.cellTable[row][column]
+            cell.config(state=state, bg=bg)
+            cell.grid(row=row, column=column, sticky="nsew")
+            
+            if select:
+                cell.select()
+                self.wallTable[row][column] = 1
+            else:
+                cell.deselect()
+                self.wallTable[row][column] = 0
+
     def display_menu(self):
         self.menuFrame = LabelFrame(self, text="User Menu")
-        self.menuFrame.grid(row=0, column=1)
-               
-        cell2 = Button(self.menuFrame, text="B", command=self.foo)
-        cell2.pack(padx=10, pady=10)
+        self.menuFrame.grid(row = 0, column = 1)
+        
+        #spinbox to pick maze size 
+        label1 = Label(self.menuFrame, text="Choose maze size:")
+        label1.grid(row = 0, column = 1, padx = 10, pady = 5)
+        
+        spinbox = ttk.Spinbox(self.menuFrame, from_=App.GRID_SIZE_MIN, to=App.GRID_SIZE_MAX, width=20)
+        spinbox.grid(row = 1, column = 1, padx = 10, pady = 5)
+        
+        mazeButton = Button(self.menuFrame, text="Generate Maze")
+        mazeButton.grid(row = 1, column = 2, padx = 10, pady = 5)
+        
+        
+        #code for the disappearing labelframe
+        '''
+        
+        self.showButton= Button(self.menuFrame, text="Generate Existing Maze", command=self.show_existing_maze)
+        self.showButton.grid(row=2, column=2, columnspan=2, padx=10, pady=5)
+        
+        self.container1 = LabelFrame(self.menuFrame)
+        self.container1.grid(row=3, column=2, columnspan=2, padx=10, pady=5)
+        self.container1.grid_forget()
+        
+        chooseExistingMaze = Label(self.container1, text="Choose an existing maze:")
+        chooseExistingMaze.grid(row=0, column=1, padx=10, pady=5, sticky="e")
+        
+        existingOptions = [ 
+            "insert existing maze"
+        ]
+        
+        self.selectedEOption = StringVar(self)
+        self.selectedEOption.set(existingOptions[0])
+        
+        optionBox = ttk.Combobox(self.container1, textvariable=self.selectedEOption, values=existingOptions)
+        optionBox.grid(row=1, column=1, padx=10, pady=5)
+        
+        pathButton = Button(self.container1, text="Generate Maze")
+        pathButton.grid(row=2, column=1, padx=10, pady=5)
+        
+        '''
+        label2 = Label(self.menuFrame, text="Choose existing maze:")
+        label2.grid(row = 2, column = 1, padx = 10, pady = 5)
+        
+        pathButton = Button(self.menuFrame, text="Generate Existing Maze")
+        pathButton.grid(row = 3, column = 2, columnspan = 2, padx = 10, pady = 5)
+        
+        existingOptions = [ 
+            "insert existing maze"
+        ]
+        
+        self.selectedEOption = StringVar(self)
+        self.selectedEOption.set(existingOptions[0])
+        
+        optionEBox = ttk.Combobox(self.menuFrame, textvariable=self.selectedEOption, values=existingOptions)
+        optionEBox.grid(row = 3, column = 1, padx = 10, pady = 5)
+        
+        spacer = Label(self.menuFrame, text="", width=1, height=1)
+        spacer.grid(row = 4, column = 1)
+        
+        # options for the dropdown menu
+        options = [ 
+            "Breadth First Search",
+            "A* Search"
+        ]
+        
+        self.selectedOption = StringVar(self)
+        self.selectedOption.set(options[0])
+        
+        label2 = Label(self.menuFrame, text="Choose Algorithm:")
+        label2.grid(row = 5, column = 1, padx = 10, pady = 5)
+
+        optionBox = ttk.Combobox(self.menuFrame, textvariable=self.selectedOption, values=options)
+        optionBox.grid(row = 6, column = 1, padx = 10, pady = 5)
+        
+        pathButton = Button(self.menuFrame, text="Generate Path")
+        pathButton.grid(row = 6, column = 2, padx = 10, pady = 5)
+        
+        spacer = Label(self.menuFrame, text="", width=1, height=1)
+        spacer.grid(row = 7, column = 1)
+        
+        # widget for the steps taken display
+        container1 = LabelFrame(self.menuFrame)
+        container1.grid(row = 8, column = 1, columnspan = 2, padx = 10, pady = 5)
+        
+        stepsLabel = Label(container1, text="Steps Taken:")
+        stepsLabel.grid(row = 0, column = 1, padx = 10, pady = 5, sticky = "e")
+
+        #not an entry box, content inside can be changed once
+        self.stepsBox = Label(container1, text="", relief="solid", borderwidth=1, width = 20, height = 1)  
+        self.stepsBox.grid(row = 0, column = 2, padx = 10, pady = 5, sticky = "w")
+        
+        # ff, rewind buttons
+        button_frame = Frame(container1)
+        button_frame.grid(row = 1, column = 2, columnspan = 2, padx = 10, pady = 5)
+
+        button1 = Button(button_frame, text = "⏮")
+        button2 = Button(button_frame, text = "⏴")
+        button3 = Button(button_frame, text = "⏵")
+        button4 = Button(button_frame, text = "⏭")
+
+        button1.pack(side="left", padx = 5)
+        button2.pack(side="left", padx = 5)
+        button3.pack(side="left", padx = 5)
+        button4.pack(side="left", padx = 5)
+    
+    #code for the disappearing labelframe
+    '''
+    def show_existing_maze(self): #iyah
+        if self.container1.winfo_viewable():
+            self.container1.grid_forget()
+        else:
+            self.container1.grid()
+    ''' 
         
     def foo(self):
         x = self.parent.winfo_width()
         y = self.parent.winfo_height()
         print("Parent Width:", x)
         print("Parent Height:", y)
-        self.show_maze(30)
+        
+        self.show_maze(App.FOO[App.I % 4])
+        App.I += 1
