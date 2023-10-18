@@ -4,7 +4,8 @@ from App import *
 
 def main():
     root = Tk()
-    app = App(root).run()
+    app = App(root)
+    app.pack(side="top", fill="both", expand=True)
     root.mainloop()
     
 

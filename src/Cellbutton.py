@@ -1,15 +1,24 @@
-from tkinter import Checkbutton, PhotoImage
+from tkinter import BooleanVar, Checkbutton, PhotoImage
+
 
 class Cellbutton(Checkbutton):
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent, row, column, side=None, *args, **kwargs):
         super().__init__(parent, indicatoron=False, *args, **kwargs)
+        self.row = row
+        self.column = column
+        self.var = BooleanVar(value=False)
         self.image = PhotoImage()
-        self.config(image=self.image, compound="center")
-        self.config(selectcolor="#404040")
-        
+        self.config(variable=self.var, image=self.image)
+        self.config(compound="center", selectcolor="#404040")
+        if side:
+            self.config(side=side)
+            
     def config(self, side=None, *args, **kwargs):
         if side:
-            kwargs['width'] = side
-            kwargs['height'] = side
+            kwargs["width"] = side
+            kwargs["height"] = side
         super().config(*args, **kwargs)
-        return self
+
+    @property
+    def value(self):
+        return self.var.get()
