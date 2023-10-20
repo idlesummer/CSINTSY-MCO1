@@ -6,10 +6,11 @@ from algorithms.maze_solver import *
 class MazeAlgoframe(ttk.Frame):
     TEXTS = ["Choose algorithm:", "Generate Path Solution"]
     
-    def __init__(self, parent, command, *args, **kwargs):
+    def __init__(self, parent, mazeFrame, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.parent = parent
-        self.command = command
+        self.mazeFrame = mazeFrame
+        self.mazeSolver = None
         self.label = None
         self.combobox = None
         self.button = None
@@ -32,11 +33,19 @@ class MazeAlgoframe(ttk.Frame):
         self.button.grid(row=1, column=1, columnspan=2, padx=10, pady=5)
     
     def load_files(self):
-        mazeSolver = MazeSolver()
-        mazeSolver.load_files()
-        self.algonames = mazeSolver.algonames
+        self.mazeSolver = MazeSolver()
+        self.mazeSolver.load_files()
+        self.algorithms = self.mazeSolver.algorithms
+        self.algonames = self.mazeSolver.algonames
         self.algonames.sort()
 
     def run_command(self):
-        pass
-        # self.command()
+        source = (1, 1)
+        target = (self.mazeFrame.playableSize, self.mazeFrame.playableSize)
+        wallTable = self.mazeFrame.wallTable
+        solution = self.mazeSolver.solve(self.algoname, source, target, wallTable)
+        print(solution)
+        
+    @property
+    def algoname(self):
+        return self.var.get()

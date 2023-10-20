@@ -17,10 +17,10 @@ class MazeSolver:
             module = importlib.import_module(f"{package}.{name}")
             self.algorithms[module.Algorithm.NAME] = module.Algorithm.solve
         
-    def solve(self, algoName, wallTable):
-        solve = self.algorithms[algoName]
-        solve(wallTable)
-        
+    def solve(self, algoname, source, target, wallTable):
+        solve = self.algorithms[algoname]
+        return solve(source, target, wallTable)
+      
     @property
     def algonames(self):
         algonames = list(self.algorithms.keys())

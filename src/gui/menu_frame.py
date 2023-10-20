@@ -28,7 +28,7 @@ class Menuframe(ttk.Labelframe):
         self.config(text=Menuframe.TEXT)
         self.mazeSizeFrame = MazeSizeframe(self, command=self.mazeFrame.generate_maze)
         self.mazeFileFrame = MazeFileframe(self, command=self.mazeFrame.generate_maze)
-        self.mazeAlgoFrame = MazeAlgoframe(self, command=None)
+        self.mazeAlgoFrame = MazeAlgoframe(self, mazeFrame=self.mazeFrame)
         self.mazeStepFrame = MazeStepframe(self, command=None)
                 
         self.mazeSizeFrame.grid(row=0, column=0)

@@ -18,7 +18,7 @@ class Mazeframe(ttk.LabelFrame):
         self.parent = parent        
         self.cellTable = [[None] * (Mazeframe.GRID_SIZE_MAX+2) for _ in range(Mazeframe.GRID_SIZE_MAX+2)]
         self.wallTable = [[0] * (Mazeframe.GRID_SIZE_MAX+2) for _ in range(Mazeframe.GRID_SIZE_MAX+2)]
-        self.tableSize = 0
+        self.playableSize = 0
     
     def grid(self, *args, **kwargs):
         self.setup_frame()
@@ -42,33 +42,33 @@ class Mazeframe(ttk.LabelFrame):
                                 
     def generate_maze(self, wallTable):      
         if isinstance(wallTable, int):
-            size = wallTable
+            playableSize = wallTable
             wallTable = Mazeframe.EMPTY_MAZE
         else:
-            size = len(wallTable)-2
+            playableSize = len(wallTable)-2
         
-        if size < Mazeframe.GRID_SIZE_MIN or size > Mazeframe.GRID_SIZE_MAX:
+        if playableSize < Mazeframe.GRID_SIZE_MIN or playableSize > Mazeframe.GRID_SIZE_MAX:
             return False
 
         #  Undraws old maze cells
-        self.remove_cells([(i, j) for i in range(self.tableSize+2) for j in range(self.tableSize+2)])
+        self.remove_cells([(i, j) for i in range(self.playableSize+2) for j in range(self.playableSize+2)])
        
         #  Draws maze cells
-        self.update_cells([(i, j, wallTable[i][j]) for i in range(size+2) for j in range(size+2)])
+        self.update_cells([(i, j, wallTable[i][j]) for i in range(playableSize+2) for j in range(playableSize+2)])
         
         # Draws the border
-        self.tableSize = size
+        self.playableSize = playableSize
         cells = []
-        for i in range(self.tableSize+2):
+        for i in range(self.playableSize+2):
             cells.append((0, i, True))
             cells.append((i, 0, True))
-            cells.append((self.tableSize+1, i, True))
-            cells.append((i, self.tableSize+1, True))
+            cells.append((self.playableSize+1, i, True))
+            cells.append((i, self.playableSize+1, True))
         self.update_cells(cells, state="disabled")
         
         # Updates the source and target cell
         self.update_cells([(1, 1, False)], state="disabled", bg="red")
-        self.update_cells([(self.tableSize, self.tableSize, False)], state="disabled", bg="green")
+        self.update_cells([(self.playableSize, self.playableSize, False)], state="disabled", bg="green")
     
     def remove_cells(self, pos):
         for row, column in pos:
@@ -91,3 +91,10 @@ class Mazeframe(ttk.LabelFrame):
         
     def on_toggle(self, cell):
         self.wallTable[cell.row][cell.column] = cell.value
+        
+    @staticmethod
+    def get_neighbors(pos, wallTable):
+        row, column = pos
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        return [(None, (row+y, column+x)) for y, x in directions if wallTable[row + y][column + x] == 0]
+        
