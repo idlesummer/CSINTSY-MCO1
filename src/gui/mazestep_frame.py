@@ -29,6 +29,6 @@ class MazeStepframe(ttk.LabelFrame):
         button4 = ttk.Button(self.button_frame, text="⏭")
 
         button1.grid(row=0, column=0, padx=5)
-        button2.pack(row=0, column=1, padx=5)
-        button3.pack(row=0, column=2, padx=5)
-        button4.pack(row=0, column=3, padx=5)
+        button2.grid(row=0, column=1, padx=5)
+        button3.grid(row=0, column=2, padx=5)
+        button4.grid(row=0, column=3, padx=5)
