@@ -1,4 +1,4 @@
-from tkinter import BooleanVar, Checkbutton, PhotoImage
+from tkinter import IntVar, Checkbutton, PhotoImage
 
 
 class Cellbutton(Checkbutton):
@@ -6,7 +6,7 @@ class Cellbutton(Checkbutton):
         super().__init__(parent, indicatoron=False, *args, **kwargs)
         self.row = row
         self.column = column
-        self.var = BooleanVar(value=False)
+        self.var = IntVar(value=False)
         self.image = PhotoImage()
         self.config(variable=self.var, image=self.image)
         self.config(compound="center", selectcolor="#404040")
