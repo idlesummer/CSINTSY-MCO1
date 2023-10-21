@@ -53,7 +53,11 @@ class MazeAlgoframe(ttk.Frame):
         self.visited, self.solution = self.mazeSolver.solve(self.algoname, source, target, wallTable)
         self.mazeFrame.update_cells([(*pos, False) for pos in self.visited[1:-1]], bg="orange")
         self.mazeFrame.update_cells([(*pos, False) for pos in self.solution[:-1]], bg="brown")
-        
+    
+    def clear_solution(self):
+        self.visited = []
+        self.solution = []
+    
     @property
     def algoname(self):
         return self.var.get()

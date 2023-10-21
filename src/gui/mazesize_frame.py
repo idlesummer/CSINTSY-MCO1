@@ -14,7 +14,7 @@ class MazeSizeframe(ttk.Frame):
         self.button = None
         self.var = IntVar()
         self.var.set(Mazeframe.GRID_SIZE_DEF)
-        
+    
     def grid(self, *args, **kwargs):
         self.setup_frame()
         super().grid(*args, **kwargs)
