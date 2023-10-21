@@ -14,9 +14,9 @@ class Algorithm:
         return abs(x1 - x2) + (y1 - y2)
     
     @staticmethod
-    def evaluation_function(node, target):
+    def evaluation_function(node, state, target):
         actualCost = Algorithm.actual_cost(node)
-        return actualCost, actualCost + Algorithm.heuristic(*node.state, *target)
+        return actualCost, actualCost + Algorithm.heuristic(*state, *target)
     
     @staticmethod
     def solve(source, target, wallTable):
@@ -48,7 +48,7 @@ class Algorithm:
             
             for action, state in Mazeframe.get_neighbors(node.state, wallTable):
                 if not frontier.contains(state) and state not in explored:
-                    value, action = Algorithm.evaluation_function(node, target)
+                    value, action = Algorithm.evaluation_function(node, state, target)
                     child = Node(state=state, parent=node, action=action, value=value)
                     frontier.add(child)
             

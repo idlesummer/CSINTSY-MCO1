@@ -51,7 +51,7 @@ class MazeAlgoframe(ttk.Frame):
         target = (self.mazeFrame.playableSize, self.mazeFrame.playableSize)
         wallTable = self.mazeFrame.wallTable
         self.visited, self.solution = self.mazeSolver.solve(self.algoname, source, target, wallTable)
-        self.mazeFrame.update_cells([(*pos, False) for pos in self.visited[1:-1]], bg="yellow")
+        self.mazeFrame.update_cells([(*pos, False) for pos in self.visited[1:-1]], bg="orange")
         self.mazeFrame.update_cells([(*pos, False) for pos in self.solution[:-1]], bg="brown")
         
     @property
