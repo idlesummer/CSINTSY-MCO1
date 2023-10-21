@@ -19,10 +19,7 @@ class Algorithm:
         visited = []
         solution = []
         
-        while True:
-            if frontier.empty():
-                return None, None
-            
+        while not frontier.empty():
             node = frontier.remove()
             
             if node.state == target:
@@ -41,3 +38,5 @@ class Algorithm:
                     action = Algorithm.evaluation_function(node)
                     child = Node(state=state, parent=node, action=action)
                     frontier.add(child)
+                    
+        return None, None
