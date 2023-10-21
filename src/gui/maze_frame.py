@@ -97,6 +97,6 @@ class Mazeframe(ttk.LabelFrame):
     @staticmethod
     def get_neighbors(pos, wallTable):
         row, column = pos
-        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        directions = [(0, 1), (0, -1), (-1, 0), (1, 0)]
         return [(None, (row+y, column+x)) for y, x in directions if wallTable[row + y][column + x] == 0]
         

@@ -3,16 +3,15 @@ from algorithms.utils.frontier import *
 from gui.maze_frame import *
 
 class Algorithm:
-    NAME = "Greedy Best-First Search"
-        
-    @staticmethod
-    def evaluation_function(x1, y1, x2, y2):
-        return abs(x1 - x2) + abs(y1 - y2)
+    NAME = "Uniform-cost Search"       
     
-    @staticmethod    
-    def solve(source, target, wallTable):        
-        action = Algorithm.evaluation_function(*source, *target)
-        start = Node(state=source, parent=None, action=action)
+    @staticmethod
+    def evaluation_function(node):
+        return node.action + 1
+    
+    @staticmethod
+    def solve(source, target, wallTable):
+        start = Node(state=source, parent=None, action=0)
         frontier = HeapFrontier()
         frontier.add(start)
         
@@ -39,6 +38,6 @@ class Algorithm:
             
             for action, state in Mazeframe.get_neighbors(node.state, wallTable):
                 if not frontier.contains(state) and state not in explored:
-                    action = Algorithm.evaluation_function(*state, *target)
+                    action = Algorithm.evaluation_function(node)
                     child = Node(state=state, parent=node, action=action)
                     frontier.add(child)

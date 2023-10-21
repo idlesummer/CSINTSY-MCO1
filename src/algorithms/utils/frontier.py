@@ -53,6 +53,6 @@ class HeapFrontier:
         if self.empty():
             return None
         
-        _, node = heapq.heappop(self.frontier)
+        _, node = heapq.heappop(self.frontier)       
         self.states.remove(node.state)
         return node
