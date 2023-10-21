@@ -42,11 +42,7 @@ class MazeAlgoframe(ttk.Frame):
         self.algonames.sort()
 
     def run_command(self):
-        playableSize = self.mazeFrame.playableSize
-        wallTable = self.mazeFrame.wallTable
-        self.mazeFrame.update_cells([(i, j, wallTable[i][j]) for i in range(playableSize+2) for j in range(playableSize+2)])
-        self.mazeFrame.update_source_target()
-        
+        self.mazeFrame.clear_paths()
         self.display_path()
         
     def display_path(self):
@@ -54,8 +50,9 @@ class MazeAlgoframe(ttk.Frame):
         target = (self.mazeFrame.playableSize, self.mazeFrame.playableSize)
         wallTable = self.mazeFrame.wallTable
         self.visited, self.solution = self.mazeSolver.solve(self.algoname, source, target, wallTable)
-        self.mazeFrame.update_cells([(*pos, False) for pos in self.visited[1:-1]], bg="orange")
-        self.mazeFrame.update_cells([(*pos, False) for pos in self.solution[:-1]], bg="brown")
+        if self.solution:
+            self.mazeFrame.update_cells([(*pos, False) for pos in self.visited[1:-1]], bg="orange")
+            self.mazeFrame.update_cells([(*pos, False) for pos in self.solution[:-1]], bg="brown")
     
     def clear_solution(self):
         self.visited = []
