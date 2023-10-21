@@ -16,7 +16,6 @@ class Algorithm:
     @staticmethod
     def evaluation_function(node, state, target):
         actualCost = Algorithm.actual_cost(node)
-        print(f"state: {state}, g(n): {actualCost}, h(n): {Algorithm.heuristic(*state, *target)}, f(n): {actualCost + Algorithm.heuristic(*state, *target)}")
         return actualCost, actualCost + Algorithm.heuristic(*state, *target)
     
     @staticmethod
