@@ -47,6 +47,9 @@ class MazeAlgoframe(ttk.Frame):
         self.mazeFrame.update_cells([(i, j, wallTable[i][j]) for i in range(playableSize+2) for j in range(playableSize+2)])
         self.mazeFrame.update_source_target()
         
+        self.display_path()
+        
+    def display_path(self):
         source = (1, 1)
         target = (self.mazeFrame.playableSize, self.mazeFrame.playableSize)
         wallTable = self.mazeFrame.wallTable

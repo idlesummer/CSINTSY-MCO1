@@ -1,11 +1,13 @@
 from tkinter import ttk
 
+from algorithms.maze_solver import *
 
 class MazeStepframe(ttk.LabelFrame):
-    def __init__(self, parent, mazeFrame, *args, **kwargs):
+    def __init__(self, parent, mazeFrame, mazeAlgoFrame, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.parent = parent
         self.mazeFrame = mazeFrame
+        self.mazeAlgoFrame = mazeAlgoFrame
         self.stepsLabel = None
         self.stepsBox = None
         self.buttonFrame = None
@@ -33,7 +35,7 @@ class MazeStepframe(ttk.LabelFrame):
         self.button1 = ttk.Button(self.buttonFrame, text="⏮", width=3, command=self.button1_command)
         self.button2 = ttk.Button(self.buttonFrame, text="⏴", width=3)
         self.button3 = ttk.Button(self.buttonFrame, text="⏵", width=3)
-        self.button4 = ttk.Button(self.buttonFrame, text="⏭", width=3)
+        self.button4 = ttk.Button(self.buttonFrame, text="⏭", width=3, command=self.button4_command)
 
         self.button1.grid(row=0, column=0, padx=(0,5))
         self.button2.grid(row=0, column=1, padx=(0,5))
@@ -43,8 +45,8 @@ class MazeStepframe(ttk.LabelFrame):
     def button1_command(self):
         wallTable = self.mazeFrame.wallTable
         playableSize = self.mazeFrame.playableSize
-        allMaze = [(i, j, wallTable[i][j]) for i in range(playableSize+2) for j in range(playableSize+2)]
-        self.mazeFrame.update_cells(allMaze, bg="white")
+        maze = [(i, j, wallTable[i][j]) for i in range(playableSize+2) for j in range(playableSize+2)]
+        self.mazeFrame.update_cells(maze, bg="white")
         self.mazeFrame.update_source_target()
         pass
     
@@ -54,7 +56,9 @@ class MazeStepframe(ttk.LabelFrame):
     
     def button3_commdand(self):
         pass
+    '''
     
     def button4_command(self):
+        self.mazeAlgoFrame.display_path()
         pass
-    '''
+    
