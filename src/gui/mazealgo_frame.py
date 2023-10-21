@@ -16,6 +16,8 @@ class MazeAlgoframe(ttk.Frame):
         self.button = None
         self.var = StringVar()
         self.algonames = []
+        self.visited = []
+        self.solution = []
         
     def grid(self, *args, **kwargs):
         self.setup_frame()
@@ -40,11 +42,17 @@ class MazeAlgoframe(ttk.Frame):
         self.algonames.sort()
 
     def run_command(self):
+        playableSize = self.mazeFrame.playableSize
+        wallTable = self.mazeFrame.wallTable
+        self.mazeFrame.update_cells([(i, j, wallTable[i][j]) for i in range(playableSize+2) for j in range(playableSize+2)])
+        self.mazeFrame.update_source_target()
+        
         source = (1, 1)
         target = (self.mazeFrame.playableSize, self.mazeFrame.playableSize)
         wallTable = self.mazeFrame.wallTable
-        solution = self.mazeSolver.solve(self.algoname, source, target, wallTable)
-        print(solution)
+        self.visited, self.solution = self.mazeSolver.solve(self.algoname, source, target, wallTable)
+        self.mazeFrame.update_cells([(*pos, False) for pos in self.visited[1:-1]], bg="yellow")
+        self.mazeFrame.update_cells([(*pos, False) for pos in self.solution[:-1]], bg="brown")
         
     @property
     def algoname(self):

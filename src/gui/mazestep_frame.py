@@ -2,10 +2,10 @@ from tkinter import ttk
 
 
 class MazeStepframe(ttk.LabelFrame):
-    def __init__(self, parent, command, *args, **kwargs):
+    def __init__(self, parent, mazeAlgoFrame, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.parent = parent
-        self.command = command
+        self.mazeAlgoFrame = mazeAlgoFrame
         self.stepsLabel = None
         self.stepsBox = None
         self.buttonFrame = None

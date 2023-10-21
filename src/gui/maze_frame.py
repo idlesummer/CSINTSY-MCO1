@@ -56,7 +56,7 @@ class Mazeframe(ttk.LabelFrame):
         #  Draws maze cells
         self.update_cells([(i, j, wallTable[i][j]) for i in range(playableSize+2) for j in range(playableSize+2)])
         
-        # Draws the border
+        # Draws the border, source, and target
         self.playableSize = playableSize
         cells = []
         for i in range(self.playableSize+2):
@@ -65,10 +65,7 @@ class Mazeframe(ttk.LabelFrame):
             cells.append((self.playableSize+1, i, True))
             cells.append((i, self.playableSize+1, True))
         self.update_cells(cells, state="disabled")
-        
-        # Updates the source and target cell
-        self.update_cells([(1, 1, False)], state="disabled", bg="red")
-        self.update_cells([(self.playableSize, self.playableSize, False)], state="disabled", bg="green")
+        self.update_source_target()
     
     def remove_cells(self, pos):
         for row, column in pos:
@@ -88,6 +85,11 @@ class Mazeframe(ttk.LabelFrame):
             else:
                 cell.deselect()
                 self.wallTable[row][column] = 0
+    
+    def update_source_target(self):
+        # Updates the source and target cell
+        self.update_cells([(1, 1, False)], state="disabled", bg="red")
+        self.update_cells([(self.playableSize, self.playableSize, False)], state="disabled", bg="green")
         
     def on_toggle(self, cell):
         self.wallTable[cell.row][cell.column] = cell.value

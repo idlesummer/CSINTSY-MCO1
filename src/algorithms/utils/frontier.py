@@ -52,6 +52,7 @@ class HeapFrontier:
     def remove(self):
         if self.empty():
             return None
+        
         _, node = heapq.heappop(self.frontier)
         self.states.remove(node.state)
         return node

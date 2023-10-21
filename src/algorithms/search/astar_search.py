@@ -26,11 +26,12 @@ class Algorithm:
         frontier.add(start)
         
         explored = set()
+        visited = []
         solution = []
         
         while True:
             if frontier.empty():
-                return None
+                return None, None
             
             node = frontier.remove()
             
@@ -40,12 +41,13 @@ class Algorithm:
                     solution.append(node.state)
                     node = node.parent
                 solution.reverse()
-                return solution
+                return visited, solution
             
             explored.add(node.state)
+            visited.append(node.state)
             
             for action, state in Mazeframe.get_neighbors(node.state, wallTable):
-                if state not in explored:
+                if not frontier.contains(state) and state not in explored:
                     value, action = Algorithm.evaluation_function(node, target)
                     child = Node(state=state, parent=node, action=action, value=value)
                     frontier.add(child)
