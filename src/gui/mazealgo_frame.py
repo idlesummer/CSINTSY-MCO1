@@ -43,13 +43,13 @@ class MazeAlgoframe(ttk.Frame):
 
     def run_command(self):
         self.mazeFrame.clear_paths()
-        self.display_path()
-        
-    def display_path(self):
         source = (1, 1)
         target = (self.mazeFrame.playableSize, self.mazeFrame.playableSize)
         wallTable = self.mazeFrame.wallTable
         self.visited, self.solution = self.mazeSolver.solve(self.algoname, source, target, wallTable)
+        self.display_path()
+        
+    def display_path(self):
         if self.solution:
             self.mazeFrame.update_cells([(*pos, False) for pos in self.visited[1:-1]], bg="orange")
             self.mazeFrame.update_cells([(*pos, False) for pos in self.solution[:-1]], bg="brown")
