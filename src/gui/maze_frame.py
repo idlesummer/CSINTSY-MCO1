@@ -90,7 +90,7 @@ class Mazeframe(ttk.LabelFrame):
         playableSize = self.playableSize
         wallTable = self.wallTable
         self.update_cells([(i, j, wallTable[i][j]) for i in range(playableSize+2) for j in range(playableSize+2)])
-        self.mazeFrame.update_source_target()
+        self.update_source_target()
     
     def update_source_target(self):
         # Updates the source and target cell
