@@ -105,4 +105,5 @@ class Mazeframe(ttk.LabelFrame):
         row, column = pos
         directions = [(0, 1), (0, -1), (-1, 0), (1, 0)]
         return [(None, (row+y, column+x)) for y, x in directions if wallTable[row + y][column + x] == 0]
+    
         
