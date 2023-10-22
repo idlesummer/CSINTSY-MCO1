@@ -16,7 +16,6 @@ class MazeStepframe(ttk.LabelFrame):
         self.button3 = None
         self.button4 = None
         self.step = 0
-        self.all_cells = []
               
     def grid(self, *args, **kwargs):
         self.setup_frame()
@@ -45,38 +44,34 @@ class MazeStepframe(ttk.LabelFrame):
         self.button4.grid(row=0, column=3, padx=(0,5))
         
     def button1_command(self):
-        self.mazeFrame.clear_paths()
+        self.step = 0
+        self.mazeFrame.clear_paths(state="disabled")
         self.stepsBox.config(text=f"0")
-        pass
     
     def button2_command(self): 
         visited = self.mazeAlgoFrame.visited
-        current_step = visited[1:self.step+1]
-        if self.step > 0:
+        if self.step > 1:
             self.step -= 1
-            self.mazeFrame.update_cells([(row, col, False) for row, col in current_step[-1:self.step+1]], bg="white")
+            self.mazeFrame.clear_paths(state="disabled")
+            self.mazeFrame.update_cells([(row, col, False) for row, col in visited[1:self.step+1]], bg="orange", state="disabled")
+            self.mazeFrame.update_cells([(*current_step[self.step-1], False)], bg="yellow", state="disabled")
             self.stepsBox.config(text=self.step)
-        pass
    
     def button3_command(self):
         visited = self.mazeAlgoFrame.visited
         if self.step < len(visited) - 1:
             self.step += 1
-            self.mazeFrame.clear_paths()
-            self.mazeFrame.update_cells([(row, col, False) for row, col in visited[1:self.step+1]], bg="orange")
+            self.mazeFrame.clear_paths(state="disabled")
+            self.mazeFrame.update_cells([(row, col, False) for row, col in visited[1:self.step+1]], bg="orange", state="disabled")
+            self.mazeFrame.update_cells([(*visited[self.step], False)], bg="yellow", state="disabled")
             self.stepsBox.config(text=self.step)
-        pass
-        
+
     def button4_command(self):
-        self.mazeAlgoFrame.display_path()
+        visited = self.mazeAlgoFrame.visited
+        self.step = len(visited) - 2
+        self.mazeAlgoFrame.display_path(state="disabled")
         self.stepsBox.config(text=len(self.mazeAlgoFrame.solution))
-        pass
-    
+
     def clear_step(self):
         self.stepsBox.config(text=f"")
-        pass
-        
-    # for the disable thingy
-    def disable_all_cells(self):
-        all_cells = [(i, j, self.mazeFrame.wallTable[i][j]) for i in range(self.mazeFrame.playableSize+2) for j in range(self.mazeFrame.playableSize+2)]
-        self.mazeFrame.update_cells(all_cells, state="disabled")
+

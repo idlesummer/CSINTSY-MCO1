@@ -86,10 +86,10 @@ class Mazeframe(ttk.LabelFrame):
                 cell.deselect()
                 self.wallTable[row][column] = 0
     
-    def clear_paths(self):
+    def clear_paths(self, state="normal"):
         playableSize = self.playableSize
         wallTable = self.wallTable
-        self.update_cells([(i, j, wallTable[i][j]) for i in range(playableSize+2) for j in range(playableSize+2)])
+        self.update_cells([(i, j, wallTable[i][j]) for i in range(playableSize+2) for j in range(playableSize+2)], state=state)
         self.update_source_target()
     
     def update_source_target(self):
