@@ -10,6 +10,7 @@ class MazeAlgoframe(ttk.Frame):
         super().__init__(parent, *args, **kwargs)
         self.parent = parent
         self.mazeFrame = mazeFrame
+        self.command = None
         self.mazeSolver = None
         self.label = None
         self.combobox = None
@@ -18,7 +19,11 @@ class MazeAlgoframe(ttk.Frame):
         self.algonames = []
         self.visited = []
         self.solution = []
-        
+    
+    def config(self, command=None, *args, **kwargs):
+        self.command = command
+        super().grid(*args, **kwargs)
+    
     def grid(self, *args, **kwargs):
         self.setup_frame()
         super().grid(*args, **kwargs)
@@ -42,6 +47,8 @@ class MazeAlgoframe(ttk.Frame):
         self.algonames.sort()
 
     def run_command(self):
+        if self.command:
+            self.command()
         self.mazeFrame.clear_paths()
         source = (1, 1)
         target = (self.mazeFrame.playableSize, self.mazeFrame.playableSize)

@@ -31,8 +31,9 @@ class Menuframe(ttk.Labelframe):
         self.mazeFileFrame = MazeFileframe(self, command=self.run_command)
         
         self.mazeSizeFrame.grid(row=0, column=0)
-        self.mazeFileFrame.grid(row=1, column=0)
+        self.mazeAlgoFrame.config(command=self.mazeStepFrame.clear_step)
         self.mazeAlgoFrame.grid(row=2, column=0)
+        self.mazeFileFrame.grid(row=1, column=0)
         self.mazeStepFrame.grid(row=3, column=0)
         
     def run_command(self, wallTable):

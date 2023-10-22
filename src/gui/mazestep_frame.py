@@ -25,7 +25,7 @@ class MazeStepframe(ttk.LabelFrame):
         self.stepsLabel = ttk.Label(self, text="Steps Taken:")
         self.stepsLabel.grid(row=0, column=0, padx=10, pady=5, sticky="e")
 
-        #not an entry box, content inside can be changed once
+        # not an entry box, content inside can be changed once
         self.stepsBox = ttk.Label(self, text="", relief="solid", borderwidth=1, width = 20, anchor="center", justify="center")  
         self.stepsBox.grid(row=0, column=1, padx=10, pady=5, sticky="w")
         
@@ -44,9 +44,8 @@ class MazeStepframe(ttk.LabelFrame):
         self.button4.grid(row=0, column=3, padx=(0,5))
         
     def button1_command(self):
-        self.step = 0
+        self.clear_step()
         self.mazeFrame.clear_paths(state="disabled")
-        self.stepsBox.config(text=f"0")
     
     def button2_command(self): 
         visited = self.mazeAlgoFrame.visited
@@ -54,7 +53,7 @@ class MazeStepframe(ttk.LabelFrame):
             self.step -= 1
             self.mazeFrame.clear_paths(state="disabled")
             self.mazeFrame.update_cells([(row, col, False) for row, col in visited[1:self.step+1]], bg="orange", state="disabled")
-            self.mazeFrame.update_cells([(*current_step[self.step-1], False)], bg="yellow", state="disabled")
+            self.mazeFrame.update_cells([(*visited[self.step], False)], bg="yellow", state="disabled")
             self.stepsBox.config(text=self.step)
    
     def button3_command(self):
@@ -68,10 +67,11 @@ class MazeStepframe(ttk.LabelFrame):
 
     def button4_command(self):
         visited = self.mazeAlgoFrame.visited
-        self.step = len(visited) - 2
+        self.step = len(visited) - 1
         self.mazeAlgoFrame.display_path(state="disabled")
         self.stepsBox.config(text=len(self.mazeAlgoFrame.solution))
 
     def clear_step(self):
+        self.step = 0
         self.stepsBox.config(text=f"")
 
