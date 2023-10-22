@@ -37,4 +37,6 @@ class Menuframe(ttk.Labelframe):
         
     def run_command(self, wallTable):
         self.mazeAlgoFrame.clear_solution()
+        self.mazeStepFrame.clear_step()
         self.mazeFrame.generate_maze(wallTable)
+        
