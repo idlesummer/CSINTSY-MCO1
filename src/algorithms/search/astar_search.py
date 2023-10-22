@@ -22,12 +22,12 @@ class Algorithm:
     @staticmethod
     def solve(source, target, wallTable):
         heuristic = Algorithm.heuristic(*source, *target)
-        start = Node(state=source, parent=None, value=(heuristic, 0))
+        node = Node(state=source, parent=None, value=(heuristic, 0))
         frontier = HeapFrontier()
         explored = set()
         visited = []
         
-        frontier.add(start)
+        frontier.add(node)
         
         while not frontier.empty():
             node = frontier.remove()

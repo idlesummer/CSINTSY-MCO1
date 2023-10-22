@@ -12,12 +12,12 @@ class Algorithm:
     
     @staticmethod
     def solve(source, target, wallTable):
-        start = Node(state=source, parent=None, value=(0, None))
+        node = Node(state=source, parent=None, value=(0, None))
         frontier = HeapFrontier()
         explored = set()
         visited = []
         
-        frontier.add(start)
+        frontier.add(node)
         
         while not frontier.empty():
             node = frontier.remove()

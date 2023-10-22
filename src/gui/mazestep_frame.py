@@ -68,6 +68,7 @@ class MazeStepframe(ttk.LabelFrame):
     def button4_command(self):
         visited = self.mazeAlgoFrame.visited
         self.step = len(visited) - 1
+        self.mazeFrame.clear_paths(state="disabled")
         self.mazeAlgoFrame.display_path(state="disabled")
         self.stepsBox.config(text=len(self.mazeAlgoFrame.solution))
 
