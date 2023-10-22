@@ -3,7 +3,7 @@ from algorithms.utils.frontier import *
 from gui.maze_frame import *
 
 class Algorithm:
-    NAME = "Uniform-cost Search"       
+    NAME = "Uniform-Cost Search"       
     
     @staticmethod
     def evaluation_function(node):

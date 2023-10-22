@@ -8,6 +8,7 @@ class MazeFileframe(ttk.Frame):
     
     def __init__(self, parent, command, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
+        self.parent = parent
         self.command = command
         self.label = None
         self.combobox = None

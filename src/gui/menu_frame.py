@@ -14,11 +14,10 @@ class Menuframe(ttk.Labelframe):
         super().__init__(parent, *args, **kwargs)
         self.parent = parent        
         self.mazeFrame = mazeFrame
+        self.mazeAlgoFrame = None
+        self.mazeStepFrame = None
         self.mazeSizeFrame = None
         self.mazeFileFrame = None
-        self.mazeAlgoFrame = None
-        self.sizeSpinbox = None
-        self.mazeButton = None
         
     def grid(self, *args, **kwargs):
         self.setup_frame()

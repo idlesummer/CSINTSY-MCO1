@@ -1,9 +1,9 @@
-from tkinter import Tk
+import tkinter as tk
 from gui.app import *
 
 
 def main():
-    root = Tk()
+    root = tk.Tk()
     app = App(root)
     app.pack(side="top", fill="both", expand=True)
     root.mainloop()
