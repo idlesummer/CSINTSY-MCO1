@@ -14,11 +14,10 @@ class Algorithm:
     def solve(source, target, wallTable):
         start = Node(state=source, parent=None, value=(0, None))
         frontier = HeapFrontier()
-        frontier.add(start)
-        
         explored = set()
         visited = []
-        solution = []
+        
+        frontier.add(start)
         
         while not frontier.empty():
             node = frontier.remove()

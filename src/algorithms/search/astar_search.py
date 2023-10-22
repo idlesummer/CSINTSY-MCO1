@@ -24,11 +24,10 @@ class Algorithm:
         heuristic = Algorithm.heuristic(*source, *target)
         start = Node(state=source, parent=None, value=(heuristic, 0))
         frontier = HeapFrontier()
-        frontier.add(start)
-        
         explored = set()
         visited = []
-        solution = []
+        
+        frontier.add(start)
         
         while not frontier.empty():
             node = frontier.remove()

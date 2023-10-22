@@ -13,12 +13,11 @@ class Algorithm:
     def solve(source, target, wallTable):        
         heuristic = Algorithm.evaluation_function(*source, *target)
         start = Node(state=source, parent=None, value=(heuristic, None))
-        frontier = HeapFrontier()
-        frontier.add(start)
-        
+        frontier = HeapFrontier()  
         explored = set()
         visited = []
-        solution = []
+
+        frontier.add(start)
         
         while not frontier.empty():            
             node = frontier.remove()
