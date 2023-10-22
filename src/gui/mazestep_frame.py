@@ -72,7 +72,11 @@ class MazeStepframe(ttk.LabelFrame):
         self.stepsBox.config(text=len(self.mazeAlgoFrame.solution))
         pass
     
-    
+    def clear_step(self):
+        self.stepsBox.config(text=f"")
+        pass
+        
+    # for the disable thingy
     def disable_all_cells(self):
         all_cells = [(i, j, self.mazeFrame.wallTable[i][j]) for i in range(self.mazeFrame.playableSize+2) for j in range(self.mazeFrame.playableSize+2)]
         self.mazeFrame.update_cells(all_cells, state="disabled")
