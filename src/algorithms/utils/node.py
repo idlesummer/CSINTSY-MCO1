@@ -6,4 +6,4 @@ class Node():
         self.value = value
         
     def __lt__(self, other):
-        return self.action < other.action
+        return self.value[0] < other.value[0]

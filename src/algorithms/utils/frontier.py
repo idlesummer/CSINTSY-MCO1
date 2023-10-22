@@ -40,7 +40,8 @@ class HeapFrontier:
         self.states = set()
         
     def add(self, node):
-        heapq.heappush(self.frontier, (node.action, node))
+        totalCost, actualCost = node.value
+        heapq.heappush(self.frontier, (totalCost, node))
         self.states.add(node.state)
 
     def contains(self, state):

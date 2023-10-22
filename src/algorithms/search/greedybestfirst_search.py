@@ -11,8 +11,8 @@ class Algorithm:
     
     @staticmethod    
     def solve(source, target, wallTable):        
-        action = Algorithm.evaluation_function(*source, *target)
-        start = Node(state=source, parent=None, action=action)
+        heuristic = Algorithm.evaluation_function(*source, *target)
+        start = Node(state=source, parent=None, value=(heuristic, None))
         frontier = HeapFrontier()
         frontier.add(start)
         
@@ -36,8 +36,8 @@ class Algorithm:
             
             for action, state in Mazeframe.get_neighbors(node.state, wallTable):
                 if not frontier.contains(state) and state not in explored:
-                    action = Algorithm.evaluation_function(*state, *target)
-                    child = Node(state=state, parent=node, action=action)
+                    heuristic = Algorithm.evaluation_function(*state, *target)
+                    child = Node(state=state, parent=node, value=(heuristic, None))
                     frontier.add(child)
                     
         return None, None

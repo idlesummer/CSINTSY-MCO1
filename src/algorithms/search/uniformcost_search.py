@@ -7,11 +7,12 @@ class Algorithm:
     
     @staticmethod
     def evaluation_function(node):
-        return node.action + 1
+        actualCost, _ = node.value
+        return actualCost + 1
     
     @staticmethod
     def solve(source, target, wallTable):
-        start = Node(state=source, parent=None, action=0)
+        start = Node(state=source, parent=None, value=(0, None))
         frontier = HeapFrontier()
         frontier.add(start)
         
@@ -35,8 +36,8 @@ class Algorithm:
             
             for action, state in Mazeframe.get_neighbors(node.state, wallTable):
                 if not frontier.contains(state) and state not in explored:
-                    action = Algorithm.evaluation_function(node)
-                    child = Node(state=state, parent=node, action=action)
+                    actualCost = Algorithm.evaluation_function(node)
+                    child = Node(state=state, parent=node, value=(actualCost, None))
                     frontier.add(child)
                     
         return None, None

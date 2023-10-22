@@ -7,7 +7,8 @@ class Algorithm:
     
     @staticmethod
     def actual_cost(node):
-        return node.value + 1
+        totalCost, actualCost = node.value
+        return actualCost + 1
     
     @staticmethod
     def heuristic(x1, y1, x2, y2):
@@ -16,12 +17,12 @@ class Algorithm:
     @staticmethod
     def evaluation_function(node, state, target):
         actualCost = Algorithm.actual_cost(node)
-        return actualCost, actualCost + Algorithm.heuristic(*state, *target)
+        return actualCost + Algorithm.heuristic(*state, *target), actualCost
     
     @staticmethod
     def solve(source, target, wallTable):
-        action = Algorithm.heuristic(*source, *target)
-        start = Node(state=source, parent=None, action=action, value=0)
+        heuristic = Algorithm.heuristic(*source, *target)
+        start = Node(state=source, parent=None, value=(heuristic, 0))
         frontier = HeapFrontier()
         frontier.add(start)
         
@@ -45,8 +46,8 @@ class Algorithm:
             
             for action, state in Mazeframe.get_neighbors(node.state, wallTable):
                 if not frontier.contains(state) and state not in explored:
-                    value, action = Algorithm.evaluation_function(node, state, target)
-                    child = Node(state=state, parent=node, action=action, value=value)
+                    totalCost, actualCost = Algorithm.evaluation_function(node, state, target)
+                    child = Node(state=state, parent=node, value=(totalCost, actualCost))
                     frontier.add(child)
                     
         return None, None
